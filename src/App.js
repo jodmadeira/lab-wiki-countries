@@ -1,7 +1,12 @@
 import './App.css';
 import axios from 'axios';
+import {Routes, Route} from 'react-router-dom'
+
 import Header from './components/header';
 import CountriesList from './components/countriesList';
+import CountryDetails from "./components/countryDetails"
+
+
 
 import {useState, useEffect} from 'react';
 
@@ -28,8 +33,18 @@ function App() {
   return (
     <div>
       <Header/>
-      <CountriesList countries={countries}/> 
-      App
+      <div className="container">
+        <div className="row">
+        {fetching? 
+        <Routes>
+          <Route path='/' element={<CountriesList  countries={countries}/> }></Route>
+          
+          <Route path='/countries/:countryCode' element={<CountryDetails />}></Route>
+        </Routes>          
+        : <h3>Loading</h3>
+        }
+        </div>
+      </div>
     </div>
   )
 

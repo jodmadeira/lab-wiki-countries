@@ -1,26 +1,31 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
 
 
 function CountriesList(props) {
-    const{countries} = props
-    console.log('countries',countries)
-
+    
+    //console.log('countries',countries)
+    const[countries, setCountries]= useState([])
+    useEffect(()=>{
+        setCountries(props.countries)
+    },[props.countries])
 
   return (
-    <div>
-        {countries.map((country)=>{
-            let countryCode=country.alpha2Code
-            countryCode.toLowerCase();
+    <div className="col-5" style={{maxHeight: '90vh', overflow: 'scroll'}}>
+    <div className="list-group">
+        {countries? countries.map((country)=>{
+            let countryCode=country.alpha2Code.toLowerCase();
+            
             return(
                 <div key={country._id} className="country">
-                    <Link to={`/countries/${country._id}`}>
-                        <img src={`https://flagpedia.net/data/flags/icon/72x54/${countryCode}.png`}></img>
+                    <Link to={`/countries/${country.alpha3Code}`}>
+                        <img src={`https://flagpedia.net/data/flags/icon/72x54/${countryCode}.png`} alt='flag'></img>
                         <h3>{country.name.official}</h3> 
                     </Link>
                 </div>
             )
-        })}
+        }): <h3>Loading</h3>}
+    </div>
     </div>
   )
 }
